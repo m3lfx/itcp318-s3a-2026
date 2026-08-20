@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 const Header = () => {
     return (
 
@@ -8,10 +8,10 @@ const Header = () => {
             <nav className="navbar row">
                 <div className="col-12 col-md-3">
                     <div className="navbar-brand">
-                        {/* <Link to="/">
+                        <Link to="/">
                             <img src="./images/shopit_logo.png" />
-                        </Link> */}
-                        <img src="./images/shopit_logo.png" />
+                        </Link>
+                        {/* <img src="./images/shopit_logo.png" /> */}
                     </div>
                 </div>
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
