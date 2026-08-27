@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Search from './Search'
 const Header = () => {
     return (
 
@@ -14,6 +15,7 @@ const Header = () => {
                         {/* <img src="./images/shopit_logo.png" /> */}
                     </div>
                 </div>
+                <Search />
                 <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
                     Login
                 </div>
