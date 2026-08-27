@@ -58,25 +58,24 @@ exports.newProduct = async (req, res, next) => {
 
 exports.getProducts = async (req, res) => {
 
-    // const resPerPage = 4;
-    // const productsCount = await Product.countDocuments();
+    const resPerPage = 2;
+    const productsCount = await Product.countDocuments();
 
     // const products = await Product.find()
-    const apiFeatures = new APIFeatures(Product.find(), req.query).search()
-    // .filter()
+    const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter()
 
-    // apiFeatures.pagination(resPerPage);
+    apiFeatures.pagination(resPerPage);
     const products = await apiFeatures.query;
-    // let filteredProductsCount = products.length;
+    let filteredProductsCount = products.length;
 
     if (!products)
         return res.status(400).json({ message: 'error loading products' })
     return res.status(200).json({
         success: true,
         products,
-        // filteredProductsCount,
-        // resPerPage,
-        // productsCount,
+        filteredProductsCount,
+        resPerPage,
+        productsCount,
 
     })
     // if (!products)

@@ -6,8 +6,6 @@ import Home from './Components/Home'
 import ProductDetails from './Components/Product/ProductDetails'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 function App() {
-
-
   return (
     <>
 
