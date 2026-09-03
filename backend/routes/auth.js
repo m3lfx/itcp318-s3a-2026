@@ -9,7 +9,7 @@ const {
     resetPassword,
     getUserProfile,
     updateProfile,
-    // updatePassword,
+    updatePassword,
     //  allUsers,
     // deleteUser,
     // getUserDetails,
@@ -24,5 +24,6 @@ router.post('/password/forgot', forgotPassword);
 router.put('/password/reset/:token', resetPassword);
 router.get('/me', isAuthenticatedUser, getUserProfile)
 router.put('/me/update', isAuthenticatedUser, upload.single("avatar"), updateProfile)
+router.put('/password/update', isAuthenticatedUser, updatePassword)
 
 module.exports = router;
