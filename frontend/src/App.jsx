@@ -3,6 +3,12 @@ import './App.css'
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer, } from 'react-toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+
+
+
 import Header from './Components/Layout/Header'
 import Footer from './Components/Layout/Footer'
 import Home from './Components/Home'
@@ -14,7 +20,65 @@ import ForgotPassword from './Components/User/ForgotPassword';
 import Profile from './Components/User/Profile';
 import UpdateProfile from './Components/User/UpdateProfile';
 import UpdatePassword from './Components/User/UpdatePassword';
+
 function App() {
+
+  const [state, setState] = useState({
+    cartItems: localStorage.getItem('cartItems')
+      ? JSON.parse(localStorage.getItem('cartItems'))
+      : [],
+
+    shippingInfo: localStorage.getItem('shippingInfo')
+      ? JSON.parse(localStorage.getItem('shippingInfo'))
+      : {},
+  })
+
+  const addItemToCart = async (id, quantity) => {
+    // console.log(id, quantity)
+    try {
+      const { data } = await axios.get(`${import.meta.env.VITE_API}/product/${id}`)
+      const item = {
+        product: data.product._id,
+        name: data.product.name,
+        price: data.product.price,
+        image: data.product.images[0].url,
+        stock: data.product.stock,
+        quantity: quantity
+      }
+
+      const isItemExist = state.cartItems.find(i => i.product === item.product)
+
+      // setState({
+      //   ...state,
+      //   cartItems: [...state.cartItems, item]
+      // })
+      if (isItemExist) {
+        setState({
+          ...state,
+          cartItems: state.cartItems.map(i => i.product === isItemExist.product ? item : i)
+        })
+      }
+      else {
+        setState({
+          ...state,
+          cartItems: [...state.cartItems, item]
+        })
+      }
+
+      toast.success('Item Added to Cart', {
+        position: 'bottom-right'
+      })
+
+
+    } catch (error) {
+      toast.error(error, {
+        position: 'top-left'
+      });
+
+    }
+
+  }
+  // localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
   return (
     <>
 
@@ -23,7 +87,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
-          <Route path="/product/:id" element={<ProductDetails />} exact="true" />
+          <Route path="/product/:id" element={<ProductDetails cartItems={state.cartItems} addItemToCart={addItemToCart} />} exact="true" />
           <Route path="/search/:keyword" element={<Home />} exact="true" />
           <Route path="/login" element={<Login />} exact="true" />
           <Route path="/register" element={<Register exact="true" />} />
