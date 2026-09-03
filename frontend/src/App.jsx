@@ -20,7 +20,7 @@ import ForgotPassword from './Components/User/ForgotPassword';
 import Profile from './Components/User/Profile';
 import UpdateProfile from './Components/User/UpdateProfile';
 import UpdatePassword from './Components/User/UpdatePassword';
-
+import Cart from './Components/Cart/Cart';
 function App() {
 
   const [state, setState] = useState({
@@ -79,12 +79,27 @@ function App() {
 
   }
   // localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+  const removeItemFromCart = async (id) => {
+    setState({
+      ...state,
+      cartItems: state.cartItems.filter(i => i.product !== id)
+    })
+    localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+  }
+
+  const saveShippingInfo = async (data) => {
+    setState({
+      ...state,
+      shippingInfo: data
+    })
+    localStorage.setItem('shippingInfo', JSON.stringify(data))
+  }
   return (
     <>
 
 
       <Router>
-        <Header />
+        <Header cartItems={state.cartItems} />
         <Routes>
           <Route path="/" element={<Home />} exact="true" />
           <Route path="/product/:id" element={<ProductDetails cartItems={state.cartItems} addItemToCart={addItemToCart} />} exact="true" />
@@ -96,6 +111,7 @@ function App() {
           <Route path="/me" element={<Profile />} exact="true" />
           <Route path="/me/update" element={<UpdateProfile />} exact="true" />
           <Route path="/password/update" element={<UpdatePassword />} />
+          <Route path="/cart" element={<Cart cartItems={state.cartItems} addItemToCart={addItemToCart} removeItemFromCart={removeItemFromCart} />} exact="true" />
 
         </Routes>
       </Router>
