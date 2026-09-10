@@ -41,9 +41,10 @@ const Cart = ({ addItemToCart, removeItemFromCart, cartItems }) => {
 
                             {cartItems.map(item => (
                                 <>
-                                    <hr />
+
 
                                     <div className="cart-item" key={item.product}>
+                                        <hr />
                                         <div className="row">
                                             <div className="col-4 col-lg-3">
                                                 <img src={item.image} alt="Laptop" height="90" width="115" />

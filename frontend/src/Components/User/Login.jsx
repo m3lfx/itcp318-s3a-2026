@@ -13,7 +13,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
     let navigate = useNavigate()
-    // let location = useLocation()
+    let location = useLocation()
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -39,19 +39,19 @@ const Login = () => {
         }
     }
 
-    // const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : ''
+    const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : ''
     // console.log(redirect)
-    useEffect(() => {
-        if (getUser()) {
-            navigate('/')
-        }
-    }, [])
-
     // useEffect(() => {
-    //     if (getUser() && redirect === 'shipping') {
-    //         navigate(`/${redirect}`)
+    //     if (getUser()) {
+    //         navigate('/')
     //     }
     // }, [])
+
+    useEffect(() => {
+        if (getUser() && redirect === 'shipping') {
+            navigate(`/${redirect}`)
+        }
+    }, [])
 
     return (
         <>
