@@ -5,23 +5,29 @@ const APIFeatures = require('../utils/apiFeatures');
 exports.newProduct = async (req, res, next) => {
     console.log(req.files)
     let images = []
-    if (typeof req.files === 'string') {
-        images.push(req.files)
-    } else {
-        images = req.files
-    }
-
-    // if (typeof req.body.images === 'string') {
-    //     images.push(req.body.images)
+    // if (typeof req.files === 'string') {
+    //     images.push(req.files)
     // } else {
-    //     images = req.body.images
+    //     images = req.files
     // }
+
+    if (typeof req.body.images === 'string') {
+        images.push(req.body.images)
+    } else {
+        images = req.body.images
+    }
 
     let imagesLinks = [];
 
     for (let i = 0; i < images.length; i++) {
         try {
-            const result = await cloudinary.v2.uploader.upload(images[i].path, {
+            // const result = await cloudinary.v2.uploader.upload(images[i].path, {
+            //     folder: 'products',
+            //     width: 150,
+            //     crop: "scale",
+            // });
+
+            const result = await cloudinary.v2.uploader.upload(images[i], {
                 folder: 'products',
                 width: 150,
                 crop: "scale",
@@ -39,7 +45,7 @@ exports.newProduct = async (req, res, next) => {
     }
 
     req.body.images = imagesLinks
-    // req.body.user = req.user.id;
+    req.body.user = req.user.id;
 
     const product = await Product.create(req.body);
 
@@ -102,4 +108,20 @@ exports.getSingleProduct = async (req, res, next) => {
         success: true,
         product
     })
+}
+
+exports.getAdminProducts = async (req, res, next) => {
+
+    const products = await Product.find();
+    if (!products) {
+        return res.status(404).json({
+            success: false,
+            message: 'Products not found'
+        })
+    }
+    return res.status(200).json({
+        success: true,
+        products
+    })
+
 }
