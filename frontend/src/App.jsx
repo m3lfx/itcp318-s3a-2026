@@ -30,6 +30,8 @@ import OrderDetails from './Components/Order/OrderDetails';
 import Dashboard from './Components/Admin/Dashboard';
 import ProductsList from './Components/Admin/ProductsList';
 import NewProduct from './Components/Admin/NewProduct';
+import OrdersList from './Components/Admin/OrdersList';
+import ProcessOrder from './Components/Admin/ProcessOrder';
 
 function App() {
 
@@ -132,6 +134,14 @@ function App() {
 
           <Route path="/admin/products" element={<ProductsList />} />
           <Route path="/admin/product" element={<NewProduct />} />
+          <Route
+            path="/admin/orders"
+            element={<OrdersList />}
+
+          />
+          <Route
+            path="/admin/order/:id"
+            element={<ProcessOrder />} />
         </Routes>
       </Router>
 
