@@ -82,7 +82,7 @@ exports.deleteOrder = async (req, res, next) => {
             message: 'No Order found with this ID',
 
         })
-      
+
     }
     return res.status(200).json({
         success: true
@@ -226,7 +226,9 @@ exports.customerSales = async (req, res, next) => {
 
 exports.salesPerMonth = async (req, res, next) => {
     const salesPerMonth = await Order.aggregate([
-
+        // Select 
+        // FROM 
+        // GROUP BY month(paidAt), year(paidAt)
         {
             $group: {
                 // _id: {month: { $month: "$paidAt" } },
@@ -243,7 +245,7 @@ exports.salesPerMonth = async (req, res, next) => {
                 month: {
                     $let: {
                         vars: {
-                            monthsInString: [, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', ' Sept', 'Oct', 'Nov', 'Dec']
+                            monthsInString: [, 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
                         },
                         in: {
                             $arrayElemAt: ['$$monthsInString', "$_id.month"]
@@ -255,9 +257,9 @@ exports.salesPerMonth = async (req, res, next) => {
         { $sort: { "_id.month": 1 } },
         {
             $project: {
-                _id: 0,
-                month: 1,
-                total: 1,
+                _id: false,
+                month: true,
+                total: true,
             }
         }
 
