@@ -8,9 +8,12 @@ import axios from 'axios'
 
 import { getUser, getToken, successMsg, errMsg } from '../../Utils/helpers'
 import ListReviews from '../Review/ListReviews';
+import { useDispatch, useSelector } from 'react-redux'
+import { getProductDetails, clearErrors, } from '../../actions/productActions'
 
 const ProductDetails = ({ addItemToCart, cartItems, }) => {
-    const [product, setProduct] = useState({})
+    const { loading, error, product } = useSelector(state => state.productDetails);
+    // const [product, setProduct] = useState({})
     const [quantity, setQuantity] = useState(1)
     const [rating, setRating] = useState(0)
     const [comment, setComment] = useState('')
@@ -19,6 +22,7 @@ const ProductDetails = ({ addItemToCart, cartItems, }) => {
     const [user, setUser] = useState(getUser())
 
     let { id } = useParams()
+    const dispatch = useDispatch()
 
     const increaseQty = () => {
         const count = document.querySelector('.count')
@@ -39,16 +43,16 @@ const ProductDetails = ({ addItemToCart, cartItems, }) => {
 
     }
 
-    const productDetails = async (id) => {
-        let link = `http://localhost:4001/api/v1/product/${id}`
-        try {
-            let res = await axios.get(link)
-            setProduct(res.data.product)
-        } catch (err) {
-            console.log(err)
-            // setError('Product not found')
-        }
-    }
+    // const productDetails = async (id) => {
+    //     let link = `http://localhost:4001/api/v1/product/${id}`
+    //     try {
+    //         let res = await axios.get(link)
+    //         setProduct(res.data.product)
+    //     } catch (err) {
+    //         console.log(err)
+    //         // setError('Product not found')
+    //     }
+    // }
 
     function setUserRatings() {
         const stars = document.querySelectorAll('.star');
@@ -108,8 +112,13 @@ const ProductDetails = ({ addItemToCart, cartItems, }) => {
 
     }
 
+    // useEffect(() => {
+    //     productDetails(id)
+    // }, [id,]);
+
     useEffect(() => {
-        productDetails(id)
+        dispatch(getProductDetails(id))
+
     }, [id,]);
 
     useEffect(() => {
