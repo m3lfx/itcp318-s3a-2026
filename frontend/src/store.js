@@ -4,17 +4,18 @@ import { thunk } from 'redux-thunk';
 import {
     productsReducer,
     productDetailsReducer,
-    // newProductReducer,
-    // newReviewReducer,
+    newProductReducer,
+
 
 
 } from './reducers/productReducers'
-// import { authReducer, 
-//     userReducer, 
-//     forgotPasswordReducer,
-//     allUsersReducer,
-//     userDetailsReducer, 
-// } from './reducers/userReducers'
+import {
+    authReducer,
+    userReducer,
+    forgotPasswordReducer,
+    // allUsersReducer,
+    // userDetailsReducer, 
+} from './reducers/userReducers'
 
 // import { cartReducer } from './reducers/cartReducers';
 
@@ -44,10 +45,10 @@ let initialState = {
 const reducer = combineReducers({
     products: productsReducer,
     productDetails: productDetailsReducer,
-    // auth: authReducer,
-    // user: userReducer,
-    // forgotPassword: forgotPasswordReducer,
-    // newProduct: newProductReducer,
+    auth: authReducer,
+    user: userReducer,
+    forgotPassword: forgotPasswordReducer,
+    newProduct: newProductReducer,
     // cart: cartReducer,
     // newOrder: newOrderReducer,
     // myOrders: myOrdersReducer,

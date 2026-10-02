@@ -3,21 +3,32 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Search from './Search'
-import { getUser, logout } from '../../Utils/helpers'
-const Header = ({ cartItems }) => {
-    const [user, setUser] = useState({})
-    const navigate = useNavigate()
-    const logoutHandler = () => {
-        logout(navigate('/'));
+// import { getUser, logout } from '../../Utils/helpers'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../../actions/userActions'
 
+const Header = ({ cartItems }) => {
+    const dispatch = useDispatch();
+    const { user, loading } = useSelector(state => state.auth)
+    // const [user, setUser] = useState({})
+    const navigate = useNavigate()
+    // const logoutHandler = () => {
+    //     logout(navigate('/'));
+
+    //     toast.success('log out', {
+    //         position: 'bottom-right'
+    //     });
+    // }
+
+    // useEffect(() => {
+    //     setUser(getUser())
+    // }, []);
+    const logoutHandler = () => {
+        dispatch(logout());
         toast.success('log out', {
             position: 'bottom-right'
         });
     }
-
-    useEffect(() => {
-        setUser(getUser())
-    }, []);
     return (
 
         <>

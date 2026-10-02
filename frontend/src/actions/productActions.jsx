@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 import {
     ALL_PRODUCTS_REQUEST,
     ALL_PRODUCTS_SUCCESS,
@@ -6,6 +7,9 @@ import {
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
     PRODUCT_DETAILS_FAIL,
+    NEW_PRODUCT_REQUEST,
+    NEW_PRODUCT_SUCCESS,
+    NEW_PRODUCT_FAIL,
 
     CLEAR_ERRORS
 } from '../constants/productConstants';
@@ -57,7 +61,8 @@ export const newProduct = (productData) => async (dispatch) => {
         dispatch({ type: NEW_PRODUCT_REQUEST })
         const config = {
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+
             },
             withCredentials: true //correct
         }
