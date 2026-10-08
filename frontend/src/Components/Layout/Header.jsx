@@ -7,9 +7,10 @@ import Search from './Search'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../../actions/userActions'
 
-const Header = ({ cartItems }) => {
+const Header = () => {
     const dispatch = useDispatch();
     const { user, loading } = useSelector(state => state.auth)
+    const { cartItems } = useSelector(state => state.cart)
     // const [user, setUser] = useState({})
     const navigate = useNavigate()
     // const logoutHandler = () => {
