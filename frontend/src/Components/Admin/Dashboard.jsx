@@ -15,39 +15,39 @@ import MonthlySalesChart from './MonthlySalesChart';
 
 const Dashboard = () => {
 
-    const [products, setProducts] = useState([])
+    // const [products, setProducts] = useState([])
     const [error, setError] = useState('')
     // const [users, setUsers] = useState([])
     // const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [totalAmount, setTotalAmount] = useState([])
     let outOfStock = 0;
-    products.forEach(product => {
-        if (product.stock === 0) {
-            outOfStock += 1;
-        }
-    })
-    const getAdminProducts = async () => {
-        try {
-            const config = {
-                headers: {
-                    'Authorization': `Bearer ${getToken()}`
-                }
-            }
-            const { data } = await axios.get(`${import.meta.env.VITE_API}/admin/products`, config)
-            console.log(data)
-            setProducts(data.products)
-            setLoading(false)
-        } catch (error) {
-            setError(error.response.data.message)
-        }
-    }
+    // products.forEach(product => {
+    //     if (product.stock === 0) {
+    //         outOfStock += 1;
+    //     }
+    // })
+    // const getAdminProducts = async () => {
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Authorization': `Bearer ${getToken()}`
+    //             }
+    //         }
+    //         const { data } = await axios.get(`${import.meta.env.VITE_API}/admin/products`, config)
+    //         console.log(data)
+    //         setProducts(data.products)
+    //         setLoading(false)
+    //     } catch (error) {
+    //         setError(error.response.data.message)
+    //     }
+    // }
 
-    useEffect(() => {
-        getAdminProducts()
-        // allOrders()
-        // allUsers()
-    }, [])
+    // useEffect(() => {
+    //     getAdminProducts()
+    //     // allOrders()
+    //     // allUsers()
+    // }, [])
 
     return (
         <>

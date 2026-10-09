@@ -6,20 +6,27 @@ import Sidebar from './SideBar'
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios'
-import { getToken } from '../../Utils/helpers'
-
+// import axios from 'axios'
+// import { getToken } from '../../Utils/helpers'
+import { useDispatch, useSelector } from 'react-redux'
+import { getOrderDetails, updateOrder, clearErrors } from '../../actions/orderActions'
+import { UPDATE_ORDER_RESET } from '../../constants/orderConstants'
 const ProcessOrder = () => {
+    const dispatch = useDispatch();
+    const { loading, order = {} } = useSelector(state => state.orderDetails)
+
+    const { error, isUpdated } = useSelector(state => state.order)
+    const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order
 
     const [status, setStatus] = useState('')
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState('')
-    const [order, setOrder] = useState({})
-    const [isUpdated, setIsUpdated] = useState(false)
+    // const [loading, setLoading] = useState(true)
+    // const [error, setError] = useState('')
+    // const [order, setOrder] = useState({})
+    // const [isUpdated, setIsUpdated] = useState(false)
     let navigate = useNavigate()
 
     let { id } = useParams();
-    const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order
+
     const orderId = id;
     const errMsg = (message = '') => toast.error(message, {
         position: 'bottom-center'
@@ -29,49 +36,52 @@ const ProcessOrder = () => {
         position: 'bottom-center'
     });
 
-    const getOrderDetails = async (id) => {
-        try {
-            const config = {
-                headers: {
+    // const getOrderDetails = async (id) => {
+    //     try {
+    //         const config = {
+    //             headers: {
 
-                    'Authorization': `Bearer ${getToken()}`
-                }
-            }
+    //                 'Authorization': `Bearer ${getToken()}`
+    //             }
+    //         }
 
-            const { data } = await axios.get(`${import.meta.env.VITE_API}/order/${id}`, config)
-            setOrder(data.order)
-            setLoading(false)
-        } catch (error) {
-            setError(error.response.data.message)
-        }
-    }
-    const updateOrder = async (id, formData) => {
+    //         const { data } = await axios.get(`${import.meta.env.VITE_API}/order/${id}`, config)
+    //         setOrder(data.order)
+    //         setLoading(false)
+    //     } catch (error) {
+    //         setError(error.response.data.message)
+    //     }
+    // }
+    // const updateOrder = async (id, formData) => {
 
-        try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${getToken()}`
-                }
-            }
-            const { data } = await axios.put(`${import.meta.env.VITE_API}/admin/order/${id}`, formData, config)
-            setIsUpdated(data.success)
+    //     try {
+    //         const config = {
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${getToken()}`
+    //             }
+    //         }
+    //         const { data } = await axios.put(`${import.meta.env.VITE_API}/admin/order/${id}`, formData, config)
+    //         setIsUpdated(data.success)
 
 
-        } catch (error) {
-            setError(error.response.data.message)
-        }
-    }
+    //     } catch (error) {
+    //         setError(error.response.data.message)
+    //     }
+    // }
 
     useEffect(() => {
-        getOrderDetails(orderId)
+        dispatch(getOrderDetails(orderId))
         if (error) {
             errMsg(error);
-            setError('')
+            dispatch(clearErrors())
+            // setError('')
         }
         if (isUpdated) {
             successMsg('Order updated successfully');
-            setIsUpdated('')
+            dispatch({ type: UPDATE_ORDER_RESET })
+
+            // setIsUpdated('')
             navigate('/admin/orders')
         }
     }, [error, isUpdated, orderId])
@@ -79,7 +89,7 @@ const ProcessOrder = () => {
     const updateOrderHandler = (id) => {
         const formData = new FormData();
         formData.set('status', status);
-        updateOrder(id, formData)
+        dispatch(updateOrder(id, formData))
     }
 
     const shippingDetails = shippingInfo && `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`

@@ -25,7 +25,7 @@ const NewProduct = () => {
     // const [error, setError] = useState('')
     // const [loading, setLoading] = useState(true)
     // const [success, setSuccess] = useState('')
-    const [product, setProduct] = useState({})
+    // const [product, setProduct] = useState({})
 
     const categories = [
         'Electronics',

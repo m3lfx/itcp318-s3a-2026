@@ -34,7 +34,7 @@ export const createOrder = (order) => async (dispatch) => {
         const config = {
             headers: {
                 'Content-Type': 'application/json'
-            }, 
+            },
             withCredentials: true
         }
         const { data } = await axios.post(`${import.meta.env.VITE_API}/order/new`, order, config)
@@ -104,6 +104,7 @@ export const allOrders = () => async (dispatch) => {
 }
 
 export const updateOrder = (id, orderData) => async (dispatch) => {
+    console.log(orderData)
     try {
         dispatch({ type: UPDATE_ORDER_REQUEST })
         const config = {

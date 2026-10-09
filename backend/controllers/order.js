@@ -90,8 +90,9 @@ exports.deleteOrder = async (req, res, next) => {
 }
 
 exports.updateOrder = async (req, res, next) => {
+    console.log("req", req.params)
     const order = await Order.findById(req.params.id)
-    console.log(req.body.order)
+    console.log("order", order)
     if (order.orderStatus === 'Delivered') {
         return res.status(400).json({
             message: 'You have already delivered this order',
@@ -113,7 +114,7 @@ exports.updateOrder = async (req, res, next) => {
 
 async function updateStock(id, quantity) {
     const product = await Product.findById(id);
-
+    console.log("product", id)
     product.stock = product.stock - quantity;
 
     await product.save({ validateBeforeSave: false })
